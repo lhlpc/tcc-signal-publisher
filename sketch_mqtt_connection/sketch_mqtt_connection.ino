@@ -6,9 +6,11 @@
 
 
 // JSON to send
-const int capacity = JSON_OBJECT_SIZE(3);
+//const int capacity = JSON_OBJECT_SIZE(1) + JSON_ARRAY_SIZE(2);
+const int capacity = JSON_ARRAY_SIZE(2) + 4 * JSON_OBJECT_SIZE(2);
 StaticJsonDocument<capacity> doc;
 char jsonBuffer[256];
+JsonArray signalSamples = doc.createNestedArray("signalSamples");
 
  
 /* Definições do LED */
@@ -24,6 +26,9 @@ char jsonBuffer[256];
                                   //            irá fechar a conexão de um deles).
 #define MQTT_USERNAME "useraskjas"
 #define MQTT_PASSWORD "ajshdajsdhv"
+
+//#define EMG_PIN 32 // EMG mesmo
+#define EMG_PIN 33 // Resistencia variavel
  
 /* Variaveis, constantes e objetos globais */
 //DHT dht(DHTPIN, DHTTYPE);
@@ -190,9 +195,12 @@ void setup()
 
     Serial.print("++++++ alou 1");
 
-    doc["idDevice"] = 456;
+//    doc["idDevice"] = 456;
     doc["idUser"] = 1;
-    serializeJson(doc, jsonBuffer);
+//    JsonArray signalSamples = doc.createNestedArray("signalSamples");
+//    signalSamples[0] = 41.2;
+//    signalSamples[1] = 53.9;
+//    serializeJson(doc, jsonBuffer);
  
     /* Inicializa a conexao wi-fi */
     initWiFi();
@@ -205,7 +213,12 @@ void setup()
 void loop() 
 {
 
-  Serial.print("++++++ alou");
+  Serial.println("++++++ alou");
+  signalSamples[0] = analogRead(EMG_PIN);
+  serializeJson(doc, jsonBuffer);
+
+  Serial.println(jsonBuffer);
+  
 
 
      
@@ -222,13 +235,11 @@ void loop()
 //    Serial.println("Error on HTTP");
 //   }
 
-Serial.print("++++++ alou 3");
+  Serial.println("++++++ alou 3");
 //    MQTT.publish(EMG_PUBLISH_TOPIC, "teste 3");
     MQTT.publish(EMG_PUBLISH_TOPIC, jsonBuffer);
-//   
-//    /* keep-alive da comunicação com broker MQTT */
-    MQTT.loop();
-// 
+    MQTT.loop(); // keep-alive da comunicação com broker MQTT
+
 //    /* Refaz o ciclo após 2 segundos */
-    delay(2000);
+    delay(300);
 }

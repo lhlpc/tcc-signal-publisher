@@ -5,7 +5,8 @@
 //#define THRESHOLD 250
 
 //Pin number where the sensor is connected. (Analog 0)
-#define EMG_PIN 3
+//#define EMG_PIN 32 // EMG mesmo
+#define EMG_PIN 33 // Resistencia variavel
 
 //Pin number where the servo motor is connected. (Digital PWM 3)
 //#define SERVO_PIN 3
@@ -42,6 +43,12 @@ void loop(){
 //    SERVO_1.write(10);
 //  }
 
+//  if(value > 1){
+    Serial.println(value);
+//  }
+
+  delay(500);
+
   //You can use serial monitor to set THRESHOLD properly, comparing the values shown when you open and close your hand.
-  Serial.println(value);
+//  Serial.println(value);
 }
