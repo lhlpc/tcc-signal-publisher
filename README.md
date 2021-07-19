@@ -1,6 +1,6 @@
 # Software Captador de sinais do TCC
 
-[Link para TCC escrito](https://flutter.dev/docs/get-started/install)
+[Link para TCC escrito](https://www.dropbox.com/sh/50arl924hzh4imw/AADP-h0LelF1QMCfGgeDMX-Fa?dl=0)
 
 ## Execução
 
